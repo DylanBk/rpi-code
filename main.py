@@ -109,14 +109,14 @@ def draw_icon(icon):
         case "moon":
             white = (255, 255, 255)
             pattern = [
-                black, black, white, white, white, white, black, black,
-                black, white, white, white, white, white, white, black,
-                black, white, white, white, white, white, white, black,
-                black, white, white, black, white, white, white, black,
-                black, white, white, black, white, white, white, black,
-                black, white, white, white, white, white, white, black,
-                black, white, white, white, white, white, white, black,
-                black, black, white, white, white, white, black, black,
+                black, white, white, white, black, black, black, black,
+                black, black, white, white, white, black, black, black,
+                black, black, black, white, white, white, black, black,
+                black, black, black, white, white, white, black, black,
+                black, black, black, white, white, white, black, black,
+                black, black, black, white, white, white, black, black,
+                black, black, white, white, white, black, black, black,
+                black, white, white, white, black, black, black, black,
             ]
 
             sense.set_pixels(pattern)
@@ -137,24 +137,27 @@ def draw_icon(icon):
 
 def send_alert(phone_num, alert_type, plant_name):
     match alert_type:
-        case "High Temperature":
-            message_body = f"The temperature is too high for the {plant_name}."
+       # case "High Temperature":
+           # message_body = f"The temperature is too high for the {plant_name}."
         case "Low Temperature":
             message_body = f"The temperature is too low for the {plant_name}."
         case "Sensor Blocked":
-            message_body = f"The sensor for the {plant_name} is blocked."
+            message_body = f"The sensor for the cabbage is blocked."
 
 #     time = datetime.now().strftime("%H:%M:%S")
 
-#     if time >= "07:00:00" or time <= "18:00:00": # check if appropriate time to send alert
+# #     if time >= "07:00:00" or time <= "18:00:00": # check if appropriate time to send alert
+    try:
+        
 
-    client = Client(account_sid, auth_token)
+        client = Client(account_sid, auth_token)
 
-#     message = client.messages.create(
-#         to=phone_num,
-#         from_="whatsapp:+14155238886",  # Your Twilio sandbox WhatsApp number
-#         body=message_body
-#     )
+        message = client.messages.create(
+              # Your Twilio sandbox WhatsApp number
+            body=message_body
+        )
+    except Exception as e:
+        print(f"Error sending alert message: {e}")
 
     # Print the SID of each sent message to confirm
     print(f'Message sent to {phone_num} from {message.account_sid}, body = {message.body}')
@@ -188,14 +191,14 @@ def main(sensor_id):
             draw_icon("sun")
         sleep(3)
 #         if light < 85 and time > "07:00:00" and time < "19:00:00": # send alert if its dark during daylight hours
-# #             send_alert(phone_num, "Light Sensor", f"Something is blocking the light sensor")
+#             send_alert(phone_num, "Light Sensor", f"Something is blocking the light sensor")
 #             print("something blocking sensor")
 
         if temp < temp_rules[0]:
             print("cold")
-#             send_alert(phone_num, "Low Temperature", plant_data['name'])
-        elif temp > temp_rules[2]:
-            print("hot")
+            send_alert(phone_num, "Low Temperature", plant_data['name'])
+#         elif temp > temp_rules[2]:
+#             print("hot")
 #             send_alert(phone_num, "High Temperature", plant_data['name'])
 
         sense.set_rotation(180) # can be removed/changed, depends how we align the pi
