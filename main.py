@@ -147,8 +147,6 @@ def send_alert(phone_num, alert_type, plant_name):
 #     time = datetime.now().strftime("%H:%M:%S")
 
 #     if time >= "07:00:00" or time <= "18:00:00": # check if appropriate time to send alert
-#     account_sid = "ACa1302304abb8b17dc72d38ec0df90c1e"
-#     auth_token  = "6123e8510681dce52a42fed680519849"
 
     client = Client(account_sid, auth_token)
 
